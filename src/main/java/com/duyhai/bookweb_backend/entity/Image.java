@@ -26,7 +26,8 @@ public class Image {
     @Lob // du lieu lon
     private String link; // duong dan
 
-    @Column(name = "data_image")
+    @Column(name = "data_image", columnDefinition = "LONGTEXT")
+    @Lob
     private String dataImage; // du lieu hinh anh
 
     @ManyToOne(cascade = {

@@ -33,16 +33,16 @@ public class User {
     @Column(name = "gender")
     private char gender;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "addressForDelivering")
+    @Column(name = "address_for_delivering")
     private String addressForDelivering;
 
-    @Column(name = "addressOfUser")
+    @Column(name = "address_of_user")
     private String addressOfUser;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {
