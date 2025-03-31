@@ -29,17 +29,17 @@ public class MethodRestConfig implements RepositoryRestConfigurer {
 //      config.exposeIdsFor(Type.class); : show id cho mot lop cu the
 
 
-        cors.addMapping("/**")
-                .allowedOrigins(url)
-                .allowedMethods("GET", "POST", "PUT", "DELETE"); // cho phep ben fe truy cap
+//        cors.addMapping("/**")
+//                .allowedOrigins(url)
+//                .allowedMethods("GET", "POST", "PUT", "DELETE"); // cho phep ben fe truy cap
 
-        HttpMethod[] chanCacPhuongThuc = {
-                HttpMethod.POST,
-                HttpMethod.PUT,
-                HttpMethod.PATCH,
-                HttpMethod.DELETE,
-        };
-        disableHttpMethod(User.class,config,chanCacPhuongThuc);
+//        HttpMethod[] chanCacPhuongThuc = {
+////                HttpMethod.POST,
+////                HttpMethod.PUT,
+////                HttpMethod.PATCH,
+//                HttpMethod.DELETE,
+//        };
+//        disableHttpMethod(User.class,config,chanCacPhuongThuc);
     }
 
     private void disableHttpMethod(Class c,
