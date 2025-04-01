@@ -13,10 +13,16 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Validated @RequestBody User user){
         ResponseEntity<?> responseEntity = accountService.registerUser(user);
+        return responseEntity;
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> activeAnAccount(@RequestParam String email, @RequestParam String idOfActivation){
+        ResponseEntity<?> responseEntity = accountService.activeAccount(email, idOfActivation);
         return responseEntity;
     }
 }

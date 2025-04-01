@@ -45,6 +45,12 @@ public class User {
     @Column(name = "address_of_user")
     private String addressOfUser;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
+    @Column(name = "id_of_activation")
+    private String idOfActivation;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH
