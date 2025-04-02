@@ -55,7 +55,7 @@ public class AccountService {
         String subject = "Active your account at DHBooks <3";
         String textBody = "Use this code to activate your account: '" +email+"' at DHBooks</br><html><body><h1>"+idOfActivation+"</h1></body></h1>";
         textBody += "</br> Click here to active: ";
-        String url = "http://localhost:3000/active/"+email+"/"+idOfActivation;
+        String url = "http://localhost:3000/active?email="+email+"&idOfActivation="+idOfActivation;
         textBody += "<a href="+url+">Activate your account</a>";
         emailService.sendMessage("bighand272004@gmail.com",email,subject,textBody);
     }
