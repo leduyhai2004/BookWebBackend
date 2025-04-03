@@ -6,6 +6,8 @@ public class Endpoints  {
     public static final String[] PUBLIC_GET_ENDPOINTS = {
             "/books",
             "/books/**",
+            "/ratings",
+            "/ratings/**",
             "/images/",
             "/images/**",
             "/account/register",
@@ -15,11 +17,19 @@ public class Endpoints  {
     };
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/account/register",
+            "/account/create-idOfActivation/**",
+            "/account/create-idOfActivation",
+            "/account/login",
 
     };
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/users",
             "/users/**",
+    };
+
+    public static final String[] ADMIN_POST_ENDPOINTS = {
+            "/books",
+
     };
 
 
