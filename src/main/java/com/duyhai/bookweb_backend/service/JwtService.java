@@ -1,17 +1,21 @@
 package com.duyhai.bookweb_backend.service;
 
+import com.duyhai.bookweb_backend.entity.Privilege;
+import com.duyhai.bookweb_backend.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.websocket.Decoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -19,10 +23,34 @@ import java.util.function.Function;
 public class JwtService {
     private static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
+    @Autowired
+    private UserService userService;
     //create jwt base on username
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<String, Object>();
-        //claims.put("isAdmin", true);
+        User user = userService.findByUsername(username);
+        boolean isAdmin = false;
+        boolean isStaff = false;
+        boolean isUser = false;
+
+        //set quyen cho claims de khi giai ma claims thi lay dc ten quyen
+        if(user != null && user.getPrivilegeList().size() > 0) {
+            List<Privilege> privilegeList = user.getPrivilegeList();
+            for(Privilege pri : privilegeList){
+                if(pri.getName().equals("ADMIN")){
+                    isAdmin = true;
+                }
+                if(pri.getName().equals("STAFF")){
+                    isStaff = true;
+                }
+                if(pri.getName().equals("USER")){
+                    isUser = true;
+                }
+            }
+        }
+        claims.put("isAdmin", isAdmin);
+        claims.put("isStaff", isStaff);
+        claims.put("isUser", isUser);
         return createToken(claims,username);
     }
 
