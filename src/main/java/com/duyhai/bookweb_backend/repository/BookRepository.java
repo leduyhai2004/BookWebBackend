@@ -8,6 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.RequestParam;
 
 //http://localhost:8080/books/search
+
 @RepositoryRestResource(path = "books")
 public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findByNameContainingIgnoreCase(@RequestParam("name") String name, Pageable pageable);

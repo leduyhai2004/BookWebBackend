@@ -20,6 +20,8 @@ public class Endpoints  {
             "/account/create-idOfActivation/**",
             "/account/create-idOfActivation",
             "/account/login",
+            "/images/",
+            "/images/**",
 
     };
     public static final String[] ADMIN_GET_ENDPOINTS = {
@@ -29,6 +31,7 @@ public class Endpoints  {
 
     public static final String[] ADMIN_POST_ENDPOINTS = {
             "/books",
+            "/api/books",
 
     };
 
