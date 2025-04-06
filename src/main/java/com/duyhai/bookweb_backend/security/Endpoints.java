@@ -34,6 +34,17 @@ public class Endpoints  {
             "/api/books",
 
     };
+    public static final String[] ADMIN_DELETE_ENDPOINTS = {
+            "/books",
+            "/api/books",
+            "/api/books/**",
+
+    };
+
+    public static final String[] ADMIN_PUT_ENDPOINTS = {
+            "/api/books/**",
+
+    };
 
 
 }
