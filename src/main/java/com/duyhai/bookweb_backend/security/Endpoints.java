@@ -38,6 +38,7 @@ public class Endpoints  {
             "/books",
             "/api/books",
             "/api/books/**",
+            "/api/images/**",
 
     };
 
