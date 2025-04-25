@@ -33,9 +33,9 @@ public class FavouriteBookController {
         return new ResponseEntity<>(this.favouriteBookService.fetchFavouriteBookById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<FavouriteBook> createFavouriteBook(@RequestBody FavouriteBook favouriteBook) {
-        return new ResponseEntity<>(this.favouriteBookService.saveFavouriteBook(favouriteBook), HttpStatus.CREATED);
+    @PostMapping("add/{bookId}")
+    public ResponseEntity<FavouriteBook> createFavouriteBook(@PathVariable int bookId) {
+        return new ResponseEntity<>(this.favouriteBookService.saveFavouriteBook(bookId), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

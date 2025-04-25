@@ -2,6 +2,8 @@ package com.duyhai.bookweb_backend.service;
 
 import com.duyhai.bookweb_backend.entity.DeliveryMethod;
 import com.duyhai.bookweb_backend.repository.DeliveryMethodRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,9 @@ public class DeliveryMethodService {
     }
 
     public DeliveryMethod saveDeliveryMethod(DeliveryMethod deliveryMethod) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println(username);
         return deliveryMethodRepository.save(deliveryMethod);
     }
 

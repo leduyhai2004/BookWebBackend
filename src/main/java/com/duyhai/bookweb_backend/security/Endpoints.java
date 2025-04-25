@@ -16,6 +16,9 @@ public class Endpoints  {
             "/account/active",
             "/api/delivery-methods",
             "/api/delivery-methods/**",
+            "/api/favourite-books",
+            "/api/favourite-books/**",
+            "favourite-books/**",
     };
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/account/register",
@@ -26,7 +29,10 @@ public class Endpoints  {
             "/images/**",
             "/api/delivery-methods",
             "/api/delivery-methods/**",
-
+            "/api/favourite-books",
+            "/api/favourite-books/**",
+            "/api/favourite-books/add/**",
+            "favourite-books/**",
     };
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/users",

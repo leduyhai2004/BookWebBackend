@@ -57,4 +57,8 @@ public class BookService {
         this.bookRepository.save(currentBook);
         return currentBook;
     }
+
+    public Book handleGetBookById(int id){
+        return this.bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+    }
 }
