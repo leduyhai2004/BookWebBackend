@@ -14,6 +14,8 @@ public class Endpoints  {
             "/users/search/existsByUsername",
             "/users/search/existsByEmail",
             "/account/active",
+            "/api/delivery-methods",
+            "/api/delivery-methods/**",
     };
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/account/register",
@@ -22,6 +24,8 @@ public class Endpoints  {
             "/account/login",
             "/images/",
             "/images/**",
+            "/api/delivery-methods",
+            "/api/delivery-methods/**",
 
     };
     public static final String[] ADMIN_GET_ENDPOINTS = {
