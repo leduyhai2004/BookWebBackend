@@ -14,4 +14,6 @@ public interface FavouriteBookRepository extends JpaRepository<FavouriteBook, In
     List<FavouriteBook> findByUser(User user);
     boolean existsByBookAndUser(Book book, User user);
     void deleteByBookAndUser(Book book, User user);
+    boolean existsByBook_Id(int bookId);
+    void deleteByBook_Id(int bookId);
 }

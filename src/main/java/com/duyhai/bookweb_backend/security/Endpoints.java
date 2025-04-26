@@ -34,6 +34,10 @@ public class Endpoints  {
             "/api/favourite-books/add/**",
             "favourite-books/**",
     };
+    public static final String[] PUBLIC_DELETE_ENDPOINTS = {
+        "/api/favourite-books/remove-favourite/**",
+        "/api/favourite-books/**",
+    };
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/users",
             "/users/**",

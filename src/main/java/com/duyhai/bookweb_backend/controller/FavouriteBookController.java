@@ -1,5 +1,6 @@
 package com.duyhai.bookweb_backend.controller;
 
+import com.duyhai.bookweb_backend.dto.request.BookDTO;
 import com.duyhai.bookweb_backend.entity.Book;
 import com.duyhai.bookweb_backend.entity.FavouriteBook;
 import com.duyhai.bookweb_backend.entity.User;
@@ -34,15 +35,21 @@ public class FavouriteBookController {
     }
 
     @PostMapping("add/{bookId}")
-    public ResponseEntity<FavouriteBook> createFavouriteBook(@PathVariable int bookId) {
-        return new ResponseEntity<>(this.favouriteBookService.saveFavouriteBook(bookId), HttpStatus.CREATED);
+    public ResponseEntity<Void> addFavouriteBook(@PathVariable int bookId) {
+        this.favouriteBookService.saveFavouriteBook(bookId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFavouriteBook(@PathVariable int id) {
-        this.favouriteBookService.deleteFavouriteBookById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/all")
+    public ResponseEntity<List<BookDTO>> getAllFavouriteBooksOfAUser() {
+        List<BookDTO> favouriteBooks = this.favouriteBookService.fetchAllFavouriteBooksOfUser();
+        if (favouriteBooks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(favouriteBooks);
     }
+
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<FavouriteBook>> getFavouriteBooksByUser(@PathVariable int userId) {
@@ -66,15 +73,10 @@ public class FavouriteBookController {
         return ResponseEntity.ok(this.favouriteBookService.isBookFavouritedByUser(book, user));
     }
 
-    @DeleteMapping("/remove-favourite")
-    public ResponseEntity<Void> removeFavouriteBook(
-            @RequestParam int bookId,
-            @RequestParam int userId) {
-        Book book = new Book();
-        book.setId(bookId);
-        User user = new User();
-        user.setId(userId);
-        this.favouriteBookService.removeFavouriteBook(book, user);
+    @DeleteMapping("/remove-favourite/{bookId}")
+    public ResponseEntity<Void> removeFavouriteBook(@PathVariable("bookId") int bookId) {
+        //int id = Integer.parseInt(bookId);
+        this.favouriteBookService.removeFavouriteBook(bookId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 } 

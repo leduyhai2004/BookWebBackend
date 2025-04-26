@@ -1,10 +1,17 @@
 package com.duyhai.bookweb_backend.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookDTO {
+    private int bookId;
     private String name;
     private String author;
     private String ISBN;
@@ -13,5 +20,5 @@ public class BookDTO {
     private double priceSell;
     private int quantity;
     private double rating;
-    private List<ImageDTO> images;
+    private String imageURL;
 }
