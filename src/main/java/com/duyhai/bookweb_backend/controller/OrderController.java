@@ -1,5 +1,6 @@
 package com.duyhai.bookweb_backend.controller;
 
+import com.duyhai.bookweb_backend.dto.request.OrderDTO;
 import com.duyhai.bookweb_backend.entity.Order;
 import com.duyhai.bookweb_backend.service.OrderService;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -24,20 +25,35 @@ public class OrderController {
         }
         return ResponseEntity.ok(orderList);
     }
+    //user
+    @GetMapping("/user/all")
+    public ResponseEntity<List<OrderDTO>> getAllOrdersOfAUser() {
+        List<OrderDTO> orderList = this.orderService.fetchAllOrdersOfAUser();
+        if (orderList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(orderList);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> getDetailOrder(@PathVariable int id) {
         return new ResponseEntity<>(this.orderService.fetchOrderById(id), HttpStatus.OK);
     }
+    //user
+    @GetMapping("/user/{orderId}")
+    public ResponseEntity<OrderDTO> getDetailOrderOfAUser(@PathVariable int orderId) {
+        return new ResponseEntity<>(this.orderService.fetchOrderOfAUser(orderId), HttpStatus.OK);
+    }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO order) {
         return new ResponseEntity<>(this.orderService.saveOrder(order), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable int id, @RequestBody Order order) {
-        Order updateOrder = this.orderService.updateOrder(id,order);
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable int id, @RequestBody String deliveryStatus,
+                                                @RequestBody String paymentStatus) {
+        OrderDTO updateOrder = this.orderService.updateOrder(id,deliveryStatus,paymentStatus);
         return new ResponseEntity<>(updateOrder, HttpStatus.OK);
     }
 

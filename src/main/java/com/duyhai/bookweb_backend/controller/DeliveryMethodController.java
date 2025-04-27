@@ -26,6 +26,15 @@ public class DeliveryMethodController {
         return ResponseEntity.ok(deliveryMethodList);
     }
 
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> getAllDeliveryMethodNames() {
+        List<String> names = deliveryMethodService.fetchAllDeliveryMethodName();
+        if (names.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(names);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryMethod> getDeliveryMethod(@PathVariable int id) {
         return new ResponseEntity<>(deliveryMethodService.fetchDeliveryMethodById(id), HttpStatus.OK);

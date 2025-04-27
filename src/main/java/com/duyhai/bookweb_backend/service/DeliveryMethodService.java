@@ -20,6 +20,13 @@ public class DeliveryMethodService {
     public List<DeliveryMethod> fetchAllDeliveryMethods() {
         return deliveryMethodRepository.findAll();
     }
+    public List<String> fetchAllDeliveryMethodName() {
+        List<DeliveryMethod> deliveryMethodList = deliveryMethodRepository.findAll();
+        List<String> nameList = deliveryMethodList.stream().map(deliveryMethod -> {
+            return deliveryMethod.getNameOfDeliveryMethod();
+        }).toList();
+        return nameList;
+    }
 
     public DeliveryMethod fetchDeliveryMethodById(int id) {
         Optional<DeliveryMethod> deliveryMethod = deliveryMethodRepository.findById(id);

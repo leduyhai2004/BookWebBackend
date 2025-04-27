@@ -2,12 +2,14 @@ package com.duyhai.bookweb_backend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -16,10 +18,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orders_id")
-    private int order_id;
+    private int orderId;
 
     @Column(name = "order_date")
-    private Date order_date;
+    private Date orderDate;
 
     @Column(name = "address_of_buyer")
     private String addressOfBuyer;

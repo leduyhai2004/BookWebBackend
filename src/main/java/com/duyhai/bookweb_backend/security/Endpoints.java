@@ -19,6 +19,11 @@ public class Endpoints  {
             "/api/favourite-books",
             "/api/favourite-books/**",
             "favourite-books/**",
+            "api/orders/**",
+            "/api/payments/**",
+            "/api/delivery-methods/**",
+            "/api/payments/names",
+            "api/delivery-methods/names",
     };
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/account/register",
@@ -33,6 +38,9 @@ public class Endpoints  {
             "/api/favourite-books/**",
             "/api/favourite-books/add/**",
             "favourite-books/**",
+            "api/orders/**",
+            "/api/payments/names",
+            "api/orders/names",
     };
     public static final String[] PUBLIC_DELETE_ENDPOINTS = {
         "/api/favourite-books/remove-favourite/**",

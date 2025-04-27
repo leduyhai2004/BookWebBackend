@@ -12,4 +12,5 @@ import java.util.List;
 @RepositoryRestResource(path = "orders")
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByUser(User user);
+    boolean existsByOrderIdAndUser(int orderId, User user);
 }
