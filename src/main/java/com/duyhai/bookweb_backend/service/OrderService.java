@@ -39,8 +39,29 @@ public class OrderService {
         this.bookService = bookService;
     }
 
-    public List<Order> fetchAllOrders() {
-        return orderRepository.findAll();
+    public List<OrderDTO> fetchAllOrders() {
+        List<Order> orderList = this.orderRepository.findAll();
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        orderList.forEach(order -> {
+            List<OrderDetailDTO> orderDetailDTOList = order.getOrderDetailList().stream()
+                    .map(orderDetail -> OrderDetailDTO.builder()
+                            .bookId(orderDetail.getBook().getId())
+                            .quantity(orderDetail.getQuantity())
+                            .price(orderDetail.getPrice())
+                            .build()).toList();
+            OrderDTO orderDTO = OrderDTO.builder()
+                    .id(order.getOrderId())
+                    .addressOfBuyer(order.getAddressOfBuyer())
+                    .price(order.getPrice())
+                    .paymentId(order.getPayment().getId())
+                    .deliveryMethodId(order.getDeliveryMethod().getId())
+                    .items(orderDetailDTOList)
+                    .deliveryStatus(order.getDeliveryStatus())
+                    .paymentStatus(order.getPaymentStatus())
+                    .build();
+            orderDTOList.add(orderDTO);
+        });
+        return orderDTOList;
     }
 
     public List<OrderDTO> fetchAllOrdersOfAUser() {
@@ -74,6 +95,26 @@ public class OrderService {
         Optional<Order> detailOrder =  orderRepository.findById(id);
         return detailOrder.orElseThrow(() -> new RuntimeException("Order not found"));
     }
+    public OrderDTO fetchOrderDTOById(int orderId) {
+        Order order = fetchOrderById(orderId);
+        List<OrderDetailDTO> orderDetailDTOList = order.getOrderDetailList().stream()
+                .map(orderDetail -> OrderDetailDTO.builder()
+                        .bookId(orderDetail.getBook().getId())
+                        .quantity(orderDetail.getQuantity())
+                        .price(orderDetail.getPrice())
+                        .build()).toList();
+        OrderDTO orderDTO = OrderDTO.builder()
+                .id(order.getOrderId())
+                .addressOfBuyer(order.getAddressOfBuyer())
+                .price(order.getPrice())
+                .paymentId(order.getPayment().getId())
+                .deliveryMethodId(order.getDeliveryMethod().getId())
+                .items(orderDetailDTOList)
+                .deliveryStatus(order.getDeliveryStatus())
+                .paymentStatus(order.getPaymentStatus())
+                .build();
+        return orderDTO;
+    }
 
     public OrderDTO fetchOrderOfAUser(int orderId) {
         UserUtil userUtil = new UserUtil(userService);
@@ -93,6 +134,8 @@ public class OrderService {
                 .paymentId(order.getPayment().getId())
                 .deliveryMethodId(order.getDeliveryMethod().getId())
                 .items(orderDetailDTOList)
+                .deliveryStatus(order.getDeliveryStatus())
+                .paymentStatus(order.getPaymentStatus())
                 .build();
         return orderDTO;
     }
@@ -140,21 +183,58 @@ public class OrderService {
        }
        this.orderRepository.deleteById(id);
     }
-    public OrderDTO updateOrder(int id, String deliveryStatus, String paymentStatus) {
+    public OrderDTO updateOrder(int id, String deliveryStatus, String paymentStatus, String addressOfBuyer) {
         Order currentOrder = this.fetchOrderById(id);
         if(currentOrder != null) {
             currentOrder.setDeliveryStatus(deliveryStatus);
             currentOrder.setPaymentStatus(paymentStatus);
+            currentOrder.setAddressOfBuyer(addressOfBuyer);
         }
-        orderRepository.save(currentOrder);
+        Order orderUpdated = orderRepository.save(currentOrder);
+        List<OrderDetailDTO> orderDetailDTOList = orderUpdated.getOrderDetailList().stream()
+                .map(orderDetail -> OrderDetailDTO.builder()
+                        .bookId(orderDetail.getBook().getId())
+                        .quantity(orderDetail.getQuantity())
+                        .price(orderDetail.getPrice())
+                        .build()).toList();
         OrderDTO orderDTO = OrderDTO.builder()
-                .id(currentOrder.getOrderId())
-                .addressOfBuyer(currentOrder.getAddressOfBuyer())
-                .price(currentOrder.getPrice())
-                .paymentId(currentOrder.getPayment().getId())
-                .deliveryMethodId(currentOrder.getDeliveryMethod().getId())
-                .deliveryStatus(currentOrder.getDeliveryStatus())
-                .paymentStatus(currentOrder.getPaymentStatus())
+                .id(orderUpdated.getOrderId())
+                .addressOfBuyer(orderUpdated.getAddressOfBuyer())
+                .price(orderUpdated.getPrice())
+                .paymentId(orderUpdated.getPayment().getId())
+                .deliveryMethodId(orderUpdated.getDeliveryMethod().getId())
+                .deliveryStatus(orderUpdated.getDeliveryStatus())
+                .paymentStatus(orderUpdated.getPaymentStatus())
+                .items(orderDetailDTOList)
+                .build();
+        return orderDTO;
+    }
+    public OrderDTO updateOrderOfAUser(int id, String addressOfBuyer) {
+        Order currentOrder = this.fetchOrderById(id);
+        UserUtil userUtil = new UserUtil(userService);
+        User currentUser = userUtil.getCurrentUser();
+        if(!this.orderRepository.existsByOrderIdAndUser(id,currentUser)){
+            throw new Error("This order is not of this user");
+        }
+        if(currentOrder != null) {
+            currentOrder.setAddressOfBuyer(addressOfBuyer);
+        }
+        Order orderUpdated = orderRepository.save(currentOrder);
+        List<OrderDetailDTO> orderDetailDTOList = orderUpdated.getOrderDetailList().stream()
+                .map(orderDetail -> OrderDetailDTO.builder()
+                        .bookId(orderDetail.getBook().getId())
+                        .quantity(orderDetail.getQuantity())
+                        .price(orderDetail.getPrice())
+                        .build()).toList();
+        OrderDTO orderDTO = OrderDTO.builder()
+                .id(orderUpdated.getOrderId())
+                .addressOfBuyer(orderUpdated.getAddressOfBuyer())
+                .price(orderUpdated.getPrice())
+                .paymentId(orderUpdated.getPayment().getId())
+                .deliveryMethodId(orderUpdated.getDeliveryMethod().getId())
+                .deliveryStatus(orderUpdated.getDeliveryStatus())
+                .paymentStatus(orderUpdated.getPaymentStatus())
+                .items(orderDetailDTOList)
                 .build();
         return orderDTO;
     }
